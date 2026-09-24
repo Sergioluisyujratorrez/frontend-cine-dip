@@ -2,6 +2,7 @@ import { AuthRouting } from '@/auth/auth-routing';
 import { RequireAuth } from '@/auth/require-auth';
 import { ErrorRouting } from '@/errors/error-routing';
 import { Demo1Layout } from '@/layouts/demo1/layout';
+import { CarteleraPage } from '@/pages/cartelera/cartelera-page';
 import { CineHomePage } from '@/pages/cine';
 import { Navigate, Route, Routes } from 'react-router';
 
@@ -9,9 +10,20 @@ import { Navigate, Route, Routes } from 'react-router';
 export function AppRoutingSetup() {
   return (
     <Routes>
+     {/* PUBLICO */}
+     
+        <Route element={<Demo1Layout />}>
+          <Route path="/cartelera" element={<CarteleraPage />} />
+        </Route>
+     
+
+
+
+      {/* PRIVADO */}
       <Route element={<RequireAuth />}>
         <Route element={<Demo1Layout />}>
           <Route path="/" element={<CineHomePage />} />
+          <Route path="/cartelera" element={<CarteleraPage />} />
         </Route>
       </Route>
 
