@@ -2,8 +2,10 @@ import { AuthRouting } from '@/auth/auth-routing';
 import { RequireAuth } from '@/auth/require-auth';
 import { ErrorRouting } from '@/errors/error-routing';
 import { Demo1Layout } from '@/layouts/demo1/layout';
+import { PublicoLayout } from '@/layouts/publico/layout';
 import { CarteleraPage } from '@/pages/cartelera/cartelera-page';
 import { CineHomePage } from '@/pages/cine';
+import { PeliculasPage } from '@/pages/peliculas/peliculas-page';
 import { Navigate, Route, Routes } from 'react-router';
 
 
@@ -12,8 +14,8 @@ export function AppRoutingSetup() {
     <Routes>
      {/* PUBLICO */}
      
-        <Route element={<Demo1Layout />}>
-          <Route path="/cartelera" element={<CarteleraPage />} />
+        <Route element={<PublicoLayout />}>
+          <Route path="/peliculas" element={<PeliculasPage />} />
         </Route>
      
 

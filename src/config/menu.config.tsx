@@ -28,13 +28,13 @@ export const MENU_SIDEBAR: MenuConfig = [
     title: 'Funciones',
     icon: CalendarDays,
     path: '/cartelera',
-    disabled: true,
+    // disabled: true,
   },
   {
     title: 'Películas',
     icon: Clapperboard,
     path: '/peliculas',
-    disabled: true,
+    // disabled: true,
   },
   { heading: 'Ventas' },
   {
@@ -67,8 +67,8 @@ export const MENU_SIDEBAR: MenuConfig = [
 /** El menú superior reutiliza las mismas entradas: no hay mega menú que mantener. */
 export const MENU_MEGA: MenuConfig = [
   { title: 'Inicio', path: '/' },
-  { title: 'Cartelera', path: '/cartelera', disabled: true },
-  { title: 'Películas', path: '/peliculas', disabled: true },
+  { title: 'Cartelera', path: '/cartelera'},
+  { title: 'Películas', path: '/peliculas'},
 ];
 
 export const MENU_MEGA_MOBILE: MenuConfig = MENU_MEGA;

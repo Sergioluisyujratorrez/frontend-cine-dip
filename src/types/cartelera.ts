@@ -13,6 +13,7 @@ export interface Funcion {
     estado: string;
 }
 
+// espera
 export interface Sala {
     idSala: number;
     nombre: string;
