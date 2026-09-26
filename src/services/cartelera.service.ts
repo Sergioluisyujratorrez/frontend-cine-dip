@@ -6,8 +6,10 @@ import { Funcion, Sala } from "@/types/cartelera";
 export const carteleraService = {
 
     // trae las funciones de de la pelicula
-    async listarFunciones(): Promise<Funcion[]> {
-        const {data} = await http.get<Funcion[]>('/cartelera/funciones');
+    async listarFunciones(idPelicula?: number): Promise<Funcion[]> {
+        const {data} = await http.get<Funcion[]>('/cartelera/funciones', {
+            params: {idPelicula}
+        });
         return data;
     },
 

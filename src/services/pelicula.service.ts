@@ -13,6 +13,7 @@ export const peliculaService = {
         return data;
     },
 
+    // detalles de pelicula
     async obtenerPelicula(id:number): Promise<Pelicula | undefined> {
         const respuesta = await this.listarPeliculas(1, 100);
         return respuesta.data.find((p) => p.id === id)

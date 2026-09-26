@@ -5,6 +5,8 @@ import { Demo1Layout } from '@/layouts/demo1/layout';
 import { PublicoLayout } from '@/layouts/publico/layout';
 import { CarteleraPage } from '@/pages/cartelera/cartelera-page';
 import { CineHomePage } from '@/pages/cine';
+import { PeliculasDellatePage } from '@/pages/peliculas/peliculas-detalle-page';
+
 import { PeliculasPage } from '@/pages/peliculas/peliculas-page';
 import { Navigate, Route, Routes } from 'react-router';
 
@@ -16,6 +18,8 @@ export function AppRoutingSetup() {
      
         <Route element={<PublicoLayout />}>
           <Route path="/peliculas" element={<PeliculasPage />} />
+          <Route path="/peliculas/:id" element={<PeliculasDellatePage />} />
+
         </Route>
      
 
