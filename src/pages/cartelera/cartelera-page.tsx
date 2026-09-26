@@ -13,7 +13,7 @@ export const CarteleraPage = () => {
   useEffect(() =>{
     carteleraService.listarFunciones()
     .then(setFunciones)
-  })
+  }, [])
   
   return (
     <Container>

@@ -8,7 +8,6 @@ function formatearDuracion(minutos:number): string {
     const horas = Math.floor(minutos / 60);
     const resto = minutos % 60;
     return horas > 0 ? `${horas}h ${resto}m`  : `${resto}m`
-    
 }
 
 
@@ -23,7 +22,7 @@ export function PeliculasPage() {
             .then((respuesta) => setPeliculas(respuesta.data))
             .catch((e: Error) => setError(e.message))
             .finally(() => setCargando(false));
-    })
+    }, [])
 
     if (cargando) {
         return (
