@@ -88,7 +88,6 @@ export function PeliculasDellatePage() {
                             {pelicula.sinopsis}
                         </p>
                         <div>
-                         
                             <h2 className="text-sm font-semibold uppercase tracking-wide text-mono">
                                 Horarios
                             </h2>
