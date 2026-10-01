@@ -5,6 +5,7 @@ import { Demo1Layout } from '@/layouts/demo1/layout';
 import { PublicoLayout } from '@/layouts/publico/layout';
 import { CarteleraPage } from '@/pages/cartelera/cartelera-page';
 import { CineHomePage } from '@/pages/cine';
+import { FuncionAsientosPage } from '@/pages/funciones/funciones-asientos-page';
 import { PeliculasDellatePage } from '@/pages/peliculas/peliculas-detalle-page';
 
 import { PeliculasPage } from '@/pages/peliculas/peliculas-page';
@@ -19,7 +20,7 @@ export function AppRoutingSetup() {
         <Route element={<PublicoLayout />}>
           <Route path="/peliculas" element={<PeliculasPage />} />
           <Route path="/peliculas/:id" element={<PeliculasDellatePage />} />
-
+          <Route path="/funciones/:id" element={<FuncionAsientosPage />} />
         </Route>
      
 
@@ -30,6 +31,7 @@ export function AppRoutingSetup() {
         <Route element={<Demo1Layout />}>
           <Route path="/" element={<CineHomePage />} />
           <Route path="/cartelera" element={<CarteleraPage />} />
+          
         </Route>
       </Route>
 

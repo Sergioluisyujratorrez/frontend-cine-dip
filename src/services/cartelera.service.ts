@@ -1,5 +1,5 @@
 import { http } from "@/lib/http";
-import { Funcion, Sala } from "@/types/cartelera";
+import { Funcion, Sala, Asiento } from "@/types/cartelera";
 
 
 // llamada a la api de cartelera
@@ -16,6 +16,11 @@ export const carteleraService = {
     //  trae las salas del cine
     async listarSalas(): Promise<Sala[]> {
         const {data} = await http.get<Sala[]>('/cartelera/saltas');
+        return data;
+    },
+
+    async asientosDeFuncion(idFuncion: number): Promise<Asiento[]>{
+        const {data} = await http.get<Asiento[]>(`/cartelera/funciones/${idFuncion}/asientos`);
         return data;
     }
 }

@@ -22,3 +22,16 @@ export interface Sala {
     activa: boolean;
 }
  
+//  Asiento
+
+export interface Asiento {
+    idAsiento: number;
+    idSala: number;
+    sala: string;
+    fila: string; // A,B,C
+    numero: number;
+    asiento: string; // A1
+    tipo: string; // NORMAL, VIP, etc.
+    activo: boolean;
+    disponible: boolean;
+}
