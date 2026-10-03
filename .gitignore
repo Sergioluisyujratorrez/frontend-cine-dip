@@ -27,3 +27,4 @@ dist-ssr
 # Variables de entorno locales
 .env
 .env.local
+.CLAUDE.md
