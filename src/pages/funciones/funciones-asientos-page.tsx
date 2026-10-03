@@ -2,8 +2,10 @@ import { useEffect, useMemo, useState } from "react";
 import { Container } from "@/components/common/container";
 import { Button } from "@/components/ui/button";
 import { Asiento, Funcion } from "@/types/cartelera";
-import { Link, useParams } from "react-router";
+import { Link, useParams, useNavigate } from "react-router";
 import { carteleraService } from "@/services/cartelera.service";
+import { useAuth } from "@/auth/context/auth-context";
+import { reservaService } from "@/services/reserva.service";
 
 
 export function FuncionAsientosPage() {
@@ -16,6 +18,10 @@ export function FuncionAsientosPage() {
 
     //Los id de butacas que el usuario eligio 
     const [elegidos, setElegidos] = useState<number[]>([]);
+
+    const navigate = useNavigate();
+    const { isAuthenticated, user } = useAuth();
+    const [reservado, setReservado] = useState(false);
 
 
     useEffect(() => {
@@ -82,6 +88,42 @@ export function FuncionAsientosPage() {
             </Container>
         )
     }
+
+    async function reservar() {
+        if (!isAuthenticated || !user) {
+            navigate(`/auth/signin?next=/funciones/${idFuncion}`);
+            return;
+        }
+        if (!funcion) return;
+        try {
+            setReservado(true);
+            setError(null);
+
+            const respuesta = await reservaService.crear({
+                idCliente: user.id,
+                idFuncion: funcion.idFuncion,
+                fechaReserva: new Date().toISOString(),
+                codigoReserva: reservaService.generarCodigo(funcion.idFuncion),
+                estado: 'PENDIENTE',
+                total,
+                detalles: elegidos.map((idAsiento) => ({
+                    idAsiento,
+                    precio: funcion.precio,
+                })),
+            });
+
+            alert(`Reserva creada: ${respuesta.data.reserva.codigo}`);
+            navigate('/peliculas')
+        } catch (e) {
+            setError((e as Error).message);
+        } finally {
+            setReservado(false);
+        }
+    }
+
+
+
+
 
     return (
         <Container>
@@ -169,7 +211,9 @@ export function FuncionAsientosPage() {
                         </p>
                         <p className="mt-1 text-xl font-semibold text-mono">Bs {total}</p>
                     </div>
-                    <Button >Reservar</Button>
+                    <Button onClick={reservar} disabled={elegidos.length === 0 || reservado}>
+                        {reservado ? 'Reservando…' : 'Reservar'}
+                    </Button>
                 </div>
             </div>
         </Container>

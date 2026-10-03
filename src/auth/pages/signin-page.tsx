@@ -32,8 +32,8 @@ export function SignInPage() {
     // Credenciales por defecto de la plantilla. Estan a la vista a proposito:
     // todavia no hay backend, se valida contra el proveedor local.
     defaultValues: {
-      usuario: 'demo',
-      contrasena: 'demo123',
+      usuario: '',
+      contrasena: '',
       recordarme: true,
     },
   });
@@ -46,7 +46,7 @@ export function SignInPage() {
       await login(values.usuario, values.contrasena);
 
       // Vuelve a donde el usuario quería entrar antes del login
-      navigate(searchParams.get('next') || '/');
+      navigate(searchParams.get('next') || '/peliculas');
     } catch (err) {
       setError(
         err instanceof Error
@@ -64,10 +64,6 @@ export function SignInPage() {
         <h1 className="text-2xl font-semibold tracking-tight">Cine</h1>
         <p className="text-sm text-muted-foreground">
           Ingresa con tu usuario para continuar
-        </p>
-        <p className="text-xs text-muted-foreground">
-          Acceso de prueba: <span className="font-medium">demo</span> /{' '}
-          <span className="font-medium">demo123</span>
         </p>
       </div>
 
