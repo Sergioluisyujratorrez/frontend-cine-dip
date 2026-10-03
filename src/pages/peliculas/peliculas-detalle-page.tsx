@@ -96,6 +96,7 @@ export function PeliculasDellatePage() {
                                 <p>No hay funciones programadas</p>
                             ) : (
                                 <div className="mt-3 flex flex-wrap gap-3">
+                                    {/* CREACION DE FUNCION COMPLETA */}
                                     {funciones.map((funcion) => (
                                         <div key={funcion.idFuncion} className='rounded-lg border border-border px-4 py-3'>
                                             <p className="text-base font-medium text-mono">

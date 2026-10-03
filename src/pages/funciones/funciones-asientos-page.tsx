@@ -54,20 +54,20 @@ export function FuncionAsientosPage() {
 
     function alternar(idAsiento: number) {
         setElegidos((previos) =>
-            previos.includes(idAsiento) 
-        ? previos.filter((x) => x !== idAsiento) : [...previos, idAsiento],
+            previos.includes(idAsiento)
+                ? previos.filter((x) => x !== idAsiento) : [...previos, idAsiento],
         )
     }
 
-    const total = elegidos.length * (funcion?.precio ?? 0 )
+    const total = elegidos.length * (funcion?.precio ?? 0)
 
     const nombresElegidos = asientos
-    .filter((a) => elegidos.includes(a.idAsiento))
-    .map((a)=> a.asiento)
-    .join(', ');
-     
+        .filter((a) => elegidos.includes(a.idAsiento))
+        .map((a) => a.asiento)
+        .join(', ');
 
-       if (cargando) {
+
+    if (cargando) {
         return (
             <Container>
                 <p>Cargando pelicula....</p>
@@ -119,14 +119,21 @@ export function FuncionAsientosPage() {
                                         {butacas.map((butaca) => {
                                             const elegido = elegidos.includes(butaca.idAsiento);
                                             return (
+                                                // BOTON MEJORADOCON ESTILOS
                                                 <button
                                                     key={butaca.idAsiento}
                                                     type="button"
+                                                    // Las ocupadas no se pueden pulsar
+                                                    disabled={!butaca.disponible}
                                                     onClick={() => alternar(butaca.idAsiento)}
-                                                    disabled = {!butaca.disponible}
+                                                    title={butaca.asiento}
                                                     className={[
-                                                        'size-7 rounded', !butaca.disponible ? 'text-muted-foreground/40' : elegido
-                                                            ? 'bg-primary text-primary-foreground' : 'bg-primary hover:bg-primary/30'
+                                                        'size-7 rounded text-[10px] transition-colors',
+                                                        !butaca.disponible
+                                                            ? 'cursor-not-allowed bg-muted text-muted-foreground/40'
+                                                            : elegido
+                                                                ? 'bg-primary text-primary-foreground'
+                                                                : 'bg-secondary hover:bg-primary/30',
                                                     ].join(' ')}
                                                 >
                                                     {butaca.numero}
@@ -158,9 +165,9 @@ export function FuncionAsientosPage() {
                 <div className="mt-10 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-border p-5">
                     <div>
                         <p className="text-sm text-mono">
-                           { elegidos.length === 0 ? 'Ninguna butaca elegida' : `${elegidos.length} Butacas: ${nombresElegidos}`
+                            {elegidos.length === 0 ? 'Ninguna butaca elegida' : `${elegidos.length} Butacas: ${nombresElegidos}`
 
-                           }
+                            }
                         </p>
                         <p className="mt-1 text-xl font-semibold text-mono">Bs {total}</p>
                     </div>
