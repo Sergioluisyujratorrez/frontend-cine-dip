@@ -140,8 +140,6 @@ export function FuncionAsientosPage() {
                                                 </button>
                                             )
                                         })}
-
-
                                     </div>
                                 </div>
                             ))}

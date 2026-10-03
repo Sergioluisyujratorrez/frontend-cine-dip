@@ -98,7 +98,12 @@ export function PeliculasDellatePage() {
                                 <div className="mt-3 flex flex-wrap gap-3">
                                     {/* CREACION DE FUNCION COMPLETA */}
                                     {funciones.map((funcion) => (
-                                        <div key={funcion.idFuncion} className='rounded-lg border border-border px-4 py-3'>
+                                        // Link y no div: toda la tarjeta lleva al mapa de butacas de esa funcion
+                                        <Link
+                                            key={funcion.idFuncion}
+                                            to={`/funciones/${funcion.idFuncion}`}
+                                            className='rounded-lg border border-border px-4 py-3 transition-colors hover:border-primary'
+                                        >
                                             <p className="text-base font-medium text-mono">
                                                Hora Inicio {funcion.horaInicio.slice(0, 5)}
                                             </p>
@@ -110,7 +115,7 @@ export function PeliculasDellatePage() {
                                             </p>
                                             <p className="mt-2 text-sm font-semibold text-mono">
                                             </p>
-                                        </div>
+                                        </Link>
 
                                     ))}
                                 </div>

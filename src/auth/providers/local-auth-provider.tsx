@@ -1,42 +1,68 @@
-import { PropsWithChildren, useCallback, useState } from 'react';
-import { AuthContext, UserModel } from '@/auth/context/auth-context';
-
-/**
- * Proveedor de sesion LOCAL, de practica.
- *
- * No habla con ningun servidor: compara contra un usuario escrito aqui abajo.
- * Sirve para ver funcionando el formulario, las rutas protegidas y el cerrar
- * sesion sin depender todavia de una API.
- *
- * Es temporal a proposito. Cuando toque conectar el backend, lo unico que
- * cambia es el contenido de `login`: en vez de comparar con USUARIO_DEMO,
- * hara una peticion y guardara lo que responda. El resto de la aplicacion
- * (RequireAuth, la cabecera, el menu) no se entera del cambio.
- */
-
-const USUARIO_DEMO = {
-  usuario: 'demo',
-  contrasena: 'demo123',
-};
+import { PropsWithChildren, useCallback, useEffect, useState } from 'react';
+import { AuthContext } from '@/auth/context/auth-context';
+import { UsuarioSesion } from '@/types/auth';
+import { authService } from '@/services/auth.service';
+import { estaVencido, leerToken } from '@/lib/jwt';
 
 export function AuthProvider({ children }: PropsWithChildren) {
-  const [loading] = useState(false);
-  const [user, setUser] = useState<UserModel | undefined>();
+  // Empieza en true: hasta revisar el token no se sabe si hay sesion,
+  // y asi RequireAuth espera en vez de mandar al login antes de tiempo
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<UsuarioSesion | undefined>();
 
   const login = useCallback(async (usuario: string, contrasena: string) => {
-    const coincide =
-      usuario === USUARIO_DEMO.usuario &&
-      contrasena === USUARIO_DEMO.contrasena;
+    
+    const token = await authService.login({usuario, contrasena});
 
-    if (!coincide) {
-      throw new Error('Usuario o contrasena incorrectos.');
+    const payload = leerToken(token);
+
+    if (!payload) {
+      throw new Error('El token recibido no se puedo leer.');
     }
 
-    setUser({ usuario });
+    authService.guardarToken(token);
+
+    const sesion = {
+      id: payload.id,
+      usuario: payload.usuario,
+      roles: payload.roles,
+    }
+    console.log('sesion iniciada:', sesion);
+    
+    setUser(sesion);
   }, []);
 
   const logout = useCallback(() => {
+    // Sin esto el token queda guardado y el F5 vuelve a abrir la sesion
+    authService.borrarToken();
     setUser(undefined);
+  }, []);
+
+
+  const tieneRol = useCallback(
+    (...roles: string[])  => roles.some((rol) => user?.roles.includes(rol)),
+    [user]
+  )
+
+  // Al recargar (F5) React pierde el estado, pero el token sigue en
+  // localStorage: se lee de ahi para reconstruir la sesion
+  useEffect(() => {
+    const token = authService.obtenerToken();
+    const payload = token ? leerToken(token) : null;
+
+    if (payload && !estaVencido(payload)) {
+      setUser({
+        id: payload.id,
+        usuario: payload.usuario,
+        roles: payload.roles,
+      });
+      console.log('>>> sesion restaurada tras F5:', payload.usuario);
+    } else if (token) {
+      // Token roto o vencido: ya no sirve, mejor no dejarlo guardado
+      authService.borrarToken();
+    }
+
+    setLoading(false);
   }, []);
 
   return (
@@ -47,6 +73,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
         user,
         login,
         logout,
+        tieneRol,
       }}
     >
       {children}
